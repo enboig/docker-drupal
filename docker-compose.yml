@@ -20,9 +20,9 @@ services:
     links:
       - database:mysql
       - mailhog
-      - solr
-      - redis
-      - tika
+      # - solr
+      # - redis
+      # - tika
     tty: true
     # Set logs driver to fluentd only if you enable the logs container
     # Add this logging section to any other container if you want the logs to be sent in es-fluentd-kibana container
@@ -51,6 +51,8 @@ services:
       - MYSQL_DATABASE=example
       - MYSQL_USER=example_user
       - MYSQL_PASSWORD=mysqlpwd
+    volumes:
+      - ./sql-data:/var/lib/mysql
 
   # phpmyadmin container - actency images
   phpmyadmin:
@@ -71,33 +73,33 @@ services:
       - "8025:8025"
 
   # solr container - actency images
-  solr:
-    # actency/docker-solr available tags: latest, 6.2, 6.1, 6.0, 5.5, 5.4, 5.3, 5.2, 5.1, 5.0, 4.10, 3.6
-    image: actency/docker-solr:6.2
-    ports:
-      - "8080:8983"
+  # solr:
+  #   # actency/docker-solr available tags: latest, 6.2, 6.1, 6.0, 5.5, 5.4, 5.3, 5.2, 5.1, 5.0, 4.10, 3.6
+  #   image: actency/docker-solr:6.2
+  #   ports:
+  #     - "8080:8983"
 
-  # redis container - official images
-  redis:
-    image: redis:latest
-    ports:
-      - "6379"
+  # # redis container - official images
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379"
 
-  # phpRedisAdmin container - actency images
-  phpredisadmin:
-    image: actency/docker-phpredisadmin
-    ports:
-      - "9900:80"
-    environment:
-      - REDIS_1_HOST=redis
-    links:
-      - redis
+  # # phpRedisAdmin container - actency images
+  # phpredisadmin:
+  #   image: actency/docker-phpredisadmin
+  #   ports:
+  #     - "9900:80"
+  #   environment:
+  #     - REDIS_1_HOST=redis
+  #   links:
+  #     - redis
 
-  # Tika server container - actency images
-  tika:
-    image: actency/docker-tika-server
-    ports:
-      - "9998:9998"
+  # # Tika server container - actency images
+  # tika:
+  #   image: actency/docker-tika-server
+  #   ports:
+  #     - "9998:9998"
 # ##### PROFILING SECTION - EXPERIMENTAL #####
 #   # Uncomment this block to enable 3 containers for profiling.
 #   # xhprof data will be stored in mongodb and available through the xhgui interface.
